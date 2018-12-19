@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="shift_jis"?>
 <QuickCV xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SettingsFile>C:\work\社内\2018_アプリサービス部\画像認識\QuickCV\QuickCV\bin\Debug\QuickCVSettings4.xml</SettingsFile>
+  <SettingsFile>C:\work\画像認識\QuickCV\QuickCVSettings4.xml</SettingsFile>
   <InstallPath>C:\tools\Python\opencv\build\x64\vc15\bin\</InstallPath>
   <ExeFile>
     <Annotation>opencv_annotation.exe</Annotation>
