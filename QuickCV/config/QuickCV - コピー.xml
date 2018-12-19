@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="Shift-JIS"?>
+<QuickCV>
+	<SettingsFile>C:\work\社内\2018_アプリサービス部\画像認識\QuickCV\QuickCV\bin\Debug\QuickCVSettings.xml</SettingsFile>
+	<InstallPath>C:\tools\Python\opencv\build\x64\vc15\bin</InstallPath>
+	<ExeFile>
+		<Annotation>opencv_annotation.exe</Annotation>
+		<Createsamples>opencv_createsamples.exe</Createsamples>
+		<Interactive>opencv_interactive-calibration.exe</Interactive>
+		<Traincascade>opencv_traincascade.exe</Traincascade>
+		<Version>opencv_version.exe</Version>
+		<Visualisation>opencv_visualisation.exe</Visualisation>
+	</ExeFile>
+</QuickCV>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="Shift-JIS"?>
+<Settings>
+	<grpSettingsSample>
+		<img>
+			<checked>1</checked>
+			<text>c:\イメージ\img.jpg</text>
+		</img>
+		<num>
+			<checked>1</checked>
+			<text>1000</text>
+		</num>
+	</grpSettingsSample>
+</Settings>
