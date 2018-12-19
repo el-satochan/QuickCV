@@ -12,6 +12,8 @@ namespace QuickCV
 {
     public partial class CheckTextBox : UserControl
     {
+        public string InitialValue { get; set; }
+
         public CheckTextBox()
         {
             InitializeComponent();

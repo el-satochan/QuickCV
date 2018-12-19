@@ -32,11 +32,13 @@
             this.tabMain = new System.Windows.Forms.TabControl();
             this.tbpLearning = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnTrainCascade = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnCreateSamples = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.tbpAnalysis = new System.Windows.Forms.TabPage();
+            this.tbpDetect = new System.Windows.Forms.TabPage();
             this.chkAnalysis = new System.Windows.Forms.CheckBox();
             this.chkCamera = new System.Windows.Forms.CheckBox();
             this.picCamera = new System.Windows.Forms.PictureBox();
@@ -51,13 +53,11 @@
             this.button2 = new System.Windows.Forms.Button();
             this.bgwCamera = new System.ComponentModel.BackgroundWorker();
             this.tltSettings = new System.Windows.Forms.ToolTip(this.components);
-            this.btnCreateSamples = new System.Windows.Forms.Button();
-            this.btnTrainCascade = new System.Windows.Forms.Button();
             this.tabMain.SuspendLayout();
             this.tbpLearning.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.tbpAnalysis.SuspendLayout();
+            this.tbpDetect.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picCamera)).BeginInit();
             this.tbpSetting.SuspendLayout();
             this.pnlSettings.SuspendLayout();
@@ -66,7 +66,7 @@
             // tabMain
             // 
             this.tabMain.Controls.Add(this.tbpLearning);
-            this.tabMain.Controls.Add(this.tbpAnalysis);
+            this.tabMain.Controls.Add(this.tbpDetect);
             this.tabMain.Controls.Add(this.tbpSetting);
             this.tabMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabMain.Location = new System.Drawing.Point(0, 0);
@@ -97,6 +97,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "学習データ作成";
             // 
+            // btnTrainCascade
+            // 
+            this.btnTrainCascade.Location = new System.Drawing.Point(73, 79);
+            this.btnTrainCascade.Name = "btnTrainCascade";
+            this.btnTrainCascade.Size = new System.Drawing.Size(75, 23);
+            this.btnTrainCascade.TabIndex = 7;
+            this.btnTrainCascade.Text = "学習データ作成";
+            this.btnTrainCascade.UseVisualStyleBackColor = true;
+            this.btnTrainCascade.Click += new System.EventHandler(this.btnTrainCascade_Click);
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.btnCreateSamples);
@@ -109,6 +119,16 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "サンプル作成";
+            // 
+            // btnCreateSamples
+            // 
+            this.btnCreateSamples.Location = new System.Drawing.Point(73, 98);
+            this.btnCreateSamples.Name = "btnCreateSamples";
+            this.btnCreateSamples.Size = new System.Drawing.Size(75, 23);
+            this.btnCreateSamples.TabIndex = 6;
+            this.btnCreateSamples.Text = "サンプル作成";
+            this.btnCreateSamples.UseVisualStyleBackColor = true;
+            this.btnCreateSamples.Click += new System.EventHandler(this.btnCreateSamples_Click);
             // 
             // button1
             // 
@@ -135,20 +155,20 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "画像ファイル";
             // 
-            // tbpAnalysis
+            // tbpDetect
             // 
-            this.tbpAnalysis.Controls.Add(this.chkAnalysis);
-            this.tbpAnalysis.Controls.Add(this.chkCamera);
-            this.tbpAnalysis.Controls.Add(this.picCamera);
-            this.tbpAnalysis.Controls.Add(this.btnLearningData);
-            this.tbpAnalysis.Controls.Add(this.txtLearningData);
-            this.tbpAnalysis.Controls.Add(this.label1);
-            this.tbpAnalysis.Location = new System.Drawing.Point(4, 22);
-            this.tbpAnalysis.Name = "tbpAnalysis";
-            this.tbpAnalysis.Padding = new System.Windows.Forms.Padding(3);
-            this.tbpAnalysis.Size = new System.Drawing.Size(1000, 704);
-            this.tbpAnalysis.TabIndex = 1;
-            this.tbpAnalysis.Text = "画像解析";
+            this.tbpDetect.Controls.Add(this.chkAnalysis);
+            this.tbpDetect.Controls.Add(this.chkCamera);
+            this.tbpDetect.Controls.Add(this.picCamera);
+            this.tbpDetect.Controls.Add(this.btnLearningData);
+            this.tbpDetect.Controls.Add(this.txtLearningData);
+            this.tbpDetect.Controls.Add(this.label1);
+            this.tbpDetect.Location = new System.Drawing.Point(4, 22);
+            this.tbpDetect.Name = "tbpDetect";
+            this.tbpDetect.Padding = new System.Windows.Forms.Padding(3);
+            this.tbpDetect.Size = new System.Drawing.Size(1000, 704);
+            this.tbpDetect.TabIndex = 1;
+            this.tbpDetect.Text = "画像解析";
             // 
             // chkAnalysis
             // 
@@ -274,26 +294,6 @@
             this.bgwCamera.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwCamera_DoWork);
             this.bgwCamera.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgwCamera_ProgressChanged);
             // 
-            // btnCreateSamples
-            // 
-            this.btnCreateSamples.Location = new System.Drawing.Point(73, 98);
-            this.btnCreateSamples.Name = "btnCreateSamples";
-            this.btnCreateSamples.Size = new System.Drawing.Size(75, 23);
-            this.btnCreateSamples.TabIndex = 6;
-            this.btnCreateSamples.Text = "サンプル作成";
-            this.btnCreateSamples.UseVisualStyleBackColor = true;
-            this.btnCreateSamples.Click += new System.EventHandler(this.btnCreateSamples_Click);
-            // 
-            // btnTrainCascade
-            // 
-            this.btnTrainCascade.Location = new System.Drawing.Point(73, 79);
-            this.btnTrainCascade.Name = "btnTrainCascade";
-            this.btnTrainCascade.Size = new System.Drawing.Size(75, 23);
-            this.btnTrainCascade.TabIndex = 7;
-            this.btnTrainCascade.Text = "学習データ作成";
-            this.btnTrainCascade.UseVisualStyleBackColor = true;
-            this.btnTrainCascade.Click += new System.EventHandler(this.btnTrainCascade_Click);
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -308,8 +308,8 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.tbpAnalysis.ResumeLayout(false);
-            this.tbpAnalysis.PerformLayout();
+            this.tbpDetect.ResumeLayout(false);
+            this.tbpDetect.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picCamera)).EndInit();
             this.tbpSetting.ResumeLayout(false);
             this.pnlSettings.ResumeLayout(false);
@@ -322,7 +322,7 @@
 
         private System.Windows.Forms.TabControl tabMain;
         private System.Windows.Forms.TabPage tbpLearning;
-        private System.Windows.Forms.TabPage tbpAnalysis;
+        private System.Windows.Forms.TabPage tbpDetect;
         private System.Windows.Forms.TextBox txtLearningData;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabPage tbpSetting;

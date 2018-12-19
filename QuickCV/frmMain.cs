@@ -27,8 +27,15 @@ namespace QuickCV
         // GroupBox関連
         const string GRP_SETTINGS_SAMPLE = "grpSettingsSample";
         const string GRP_SETTINGS_LEARNING = "grpSettingsLearning";
-        const string GRP_SETTINGS_ANALYSIS = "grpSettingsAnalysis";
+        const string GRP_SETTINGS_DETECT = "grpSettingsDetect";
         const string GRP_SETTINGS_CAMERA = "grpSettingsCamera";
+        // 物体検出パラメータ
+        const string PRM_DETECT_SCALEFACTOR = "scaleFactor";
+        const string PRM_DETECT_MINNEIGHBORS = "minNeighbors";
+        const string PRM_DETECT_FLAGS = "flags";
+        const string PRM_DETECT_MINSIZE = "minSize";
+        const string PRM_DETECT_MAXSIZE = "maxSize";
+        const string PRM_DETECT_OUTPUTREJECTLEVELS = "outputRejectLevels";
     #endregion
         
     #region 変数
@@ -45,6 +52,7 @@ namespace QuickCV
         //GroupBox grpSettingsAnalysis;
         //GroupBox grpSettingsCamera;
         XmlDocument xmlSettings;
+        string errorParameterName = "";
     #endregion
 
     #region イベント　共通
@@ -181,9 +189,54 @@ namespace QuickCV
                         var result = src.Clone();
                         Cv2.CvtColor(src, gray, ColorConversionCodes.BGR2GRAY);
 
-                        // 顔検出
+                        // 物体検出用パラメータ定義
+                        int[] rejectLevels;
+                        double[] levelWeights;
+                        double scaleFactor = 1.1;
+                        int minNeighbors = 3;
+                        OpenCvSharp.HaarDetectionType flags = HaarDetectionType.FindBiggestObject;
+                        OpenCvSharp.Size? minSize = null;
+                        OpenCvSharp.Size? maxSize = null;
+                        bool outputRejectLevels = false;
+                        // 物体検出用パラメータ取得
+                        try
+                        {
+                            // scaleFactor
+                            scaleFactor = double.Parse(GetParameterFromDetect(PRM_DETECT_SCALEFACTOR));
+                            // minNeighbors
+                            minNeighbors = int.Parse(GetParameterFromDetect(PRM_DETECT_MINNEIGHBORS));
+                            // flags
+                            //flags = HaarDetectionType.FindBiggestObject;
+                            // minSize
+                            string[] minSizeTemp = GetParameterFromDetect(PRM_DETECT_MINSIZE).Split(',');
+                            minSize = new OpenCvSharp.Size(double.Parse(minSizeTemp[0]), double.Parse(minSizeTemp[1]));
+                            // maxSize
+                            //string[] maxSizeTemp = GetParameterFromDetect(PRM_DETECT_MAXSIZE).Split(',');
+                            //maxSize = new OpenCvSharp.Size(double.Parse(maxSizeTemp[0]), double.Parse(maxSizeTemp[1]));
+                            // outputRejectLevels
+                            outputRejectLevels = GetParameterFromDetect(PRM_DETECT_OUTPUTREJECTLEVELS) == "true" ? true : false;
+                        }
+                        catch (Exception ex)
+                        {
+                            chkAnalysis.Checked = false;
+                            MessageBox.Show("物体検出のパラメータが不正です。\r\n\r\n" + errorParameterName + "\r\n\r\n" + ex.Message);
+                            return;
+                        }
+
+                        // 物体検出
+                        //Rect[] faces = haarCascade.DetectMultiScale(
+                        //    gray, 1.08, 2, HaarDetectionType.FindBiggestObject, new OpenCvSharp.Size(50, 50));
                         Rect[] faces = haarCascade.DetectMultiScale(
-                            gray, 1.08, 2, HaarDetectionType.FindBiggestObject, new OpenCvSharp.Size(50, 50));
+                            gray,
+                            out rejectLevels,
+                            out levelWeights,
+                            scaleFactor,
+                            minNeighbors,
+                            flags,
+                            minSize,
+                            maxSize,
+                            outputRejectLevels
+                            );
 
                         // 検出した顔の位置に円を描画
                         foreach (Rect face in faces)
@@ -485,22 +538,22 @@ namespace QuickCV
             grp.Location = new System.Drawing.Point(10, pnlSettings.Height + 10);
             grp.Size = new System.Drawing.Size(700, 30);
             tbpSetting.Controls.Add(grp);
-            addCheckTextBox(grp, "info", "collection_file_name");
-            addCheckTextBox(grp, "img", "image_file_name");
-            addCheckTextBox(grp, "vec", "vec_file_name");
-            addCheckTextBox(grp, "bg", "background_file_name");
-            addCheckTextBox(grp, "num", "number_of_samples = 1000");
-            addCheckTextBox(grp, "bgcolor", "background_color = 0");
-            addCheckTextBox(grp, "inv", "[-randinv [-bgthresh background_color_threshold = 80");
-            addCheckTextBox(grp, "maxidev", "max_intensity_deviation = 40");
-            addCheckTextBox(grp, "maxxangle", "max_x_rotation_angle = 1.100000");
-            addCheckTextBox(grp, "maxyangle", "max_y_rotation_angle = 1.100000");
-            addCheckTextBox(grp, "maxzangle", "max_z_rotation_angle = 0.500000");
-            addCheckTextBox(grp, "show", "[scale = 4.000000");
-            addCheckTextBox(grp, "w", "sample_width = 24");
-            addCheckTextBox(grp, "h", "sample_height = 24");
-            addCheckTextBox(grp, "maxscale", "max sample scale = -1.000000");
-            addCheckTextBox(grp, "rngseed", "rng seed = 12345");
+            addCheckTextBox(grp, "info", "", "collection_file_name");
+            addCheckTextBox(grp, "img", "", "image_file_name");
+            addCheckTextBox(grp, "vec", "", "vec_file_name");
+            addCheckTextBox(grp, "bg", "", "background_file_name");
+            addCheckTextBox(grp, "num", "1000", "number_of_samples = 1000");
+            addCheckTextBox(grp, "bgcolor", "0", "background_color = 0");
+            addCheckTextBox(grp, "inv", "80", "[-randinv [-bgthresh background_color_threshold = 80");
+            addCheckTextBox(grp, "maxidev", "40", "max_intensity_deviation = 40");
+            addCheckTextBox(grp, "maxxangle", "1.100000", "max_x_rotation_angle = 1.100000");
+            addCheckTextBox(grp, "maxyangle", "1.100000", "max_y_rotation_angle = 1.100000");
+            addCheckTextBox(grp, "maxzangle", "0.500000", "max_z_rotation_angle = 0.500000");
+            addCheckTextBox(grp, "show", "4.000000", "[scale = 4.000000");
+            addCheckTextBox(grp, "w", "24", "sample_width = 24");
+            addCheckTextBox(grp, "h", "24", "sample_height = 24");
+            addCheckTextBox(grp, "maxscale", "-1.000000", "max sample scale = -1.000000");
+            addCheckTextBox(grp, "rngseed", "12345", "rng seed = 12345");
 
             // 次のGroupBoxの表示位置
             int h = grp.Location.Y + grp.Height;
@@ -512,28 +565,45 @@ namespace QuickCV
             grp.Location = new System.Drawing.Point(10, h + 20);
             grp.Size = new System.Drawing.Size(700, 30);
             tbpSetting.Controls.Add(grp);
-            addCheckTextBox(grp, "data", "cascade_dir_name", true);
-            addCheckTextBox(grp, "vec", "vec_file_name", true);
-            addCheckTextBox(grp, "bg", "background_file_name", true);
-            addCheckTextBox(grp, "numPos", "number_of_positive_samples = 2000");
-            addCheckTextBox(grp, "numNeg", "number_of_negative_samples = 1000");
-            addCheckTextBox(grp, "numStages", "number_of_stages = 20");
-            addCheckTextBox(grp, "precalcValBufSize", "precalculated_vals_buffer_size_in_Mb = 1024");
-            addCheckTextBox(grp, "precalcIdxBufSize", "precalculated_idxs_buffer_size_in_Mb = 1024");
-            addCheckTextBox(grp, "baseFormatSave", "");
-            addCheckTextBox(grp, "numThreads", "max_number_of_threads = 5");
-            addCheckTextBox(grp, "acceptanceRatioBreakValue", "value = -1");
-            addCheckTextBox(grp, "stageType", "BOOST(default)");
-            addCheckTextBox(grp, "featureType", "{HAAR(default), LBP, HOG}");
-            addCheckTextBox(grp, "w", "sampleWidth = 24");
-            addCheckTextBox(grp, "h", "sampleHeight = 24");
-            addCheckTextBox(grp, "bt", "{DAB, RAB, LB, GAB(default)}");
-            addCheckTextBox(grp, "minHitRate", "min_hit_rate = 0.995");
-            addCheckTextBox(grp, "maxFalseAlarmRate", "max_false_alarm_rate = 0.5");
-            addCheckTextBox(grp, "weightTrimRate", "weight_trim_rate = 0.95");
-            addCheckTextBox(grp, "maxDepth", "max_depth_of_weak_tree = 1");
-            addCheckTextBox(grp, "maxWeakCount", "max_weak_tree_count = 100");
-            addCheckTextBox(grp, "mode", "BASIC(default) | CORE | ALL");
+            addCheckTextBox(grp, "data", "", "cascade_dir_name", true);
+            addCheckTextBox(grp, "vec", "", "vec_file_name", true);
+            addCheckTextBox(grp, "bg", "", "background_file_name", true);
+            addCheckTextBox(grp, "numPos", "2000", "number_of_positive_samples = 2000");
+            addCheckTextBox(grp, "numNeg", "1000", "number_of_negative_samples = 1000");
+            addCheckTextBox(grp, "numStages", "20", "number_of_stages = 20");
+            addCheckTextBox(grp, "precalcValBufSize", "1024", "precalculated_vals_buffer_size_in_Mb = 1024");
+            addCheckTextBox(grp, "precalcIdxBufSize", "1024", "precalculated_idxs_buffer_size_in_Mb = 1024");
+            addCheckTextBox(grp, "baseFormatSave", "", "");
+            addCheckTextBox(grp, "numThreads", "5", "max_number_of_threads = 5");
+            addCheckTextBox(grp, "acceptanceRatioBreakValue", "-1", "value = -1");
+            addCheckTextBox(grp, "stageType", "BOOST", "BOOST(default)");
+            addCheckTextBox(grp, "featureType", "HAAR", "{HAAR(default), LBP, HOG}");
+            addCheckTextBox(grp, "w", "24", "sampleWidth = 24");
+            addCheckTextBox(grp, "h", "24", "sampleHeight = 24");
+            addCheckTextBox(grp, "bt", "GAB", "{DAB, RAB, LB, GAB(default)}");
+            addCheckTextBox(grp, "minHitRate", "0.995", "min_hit_rate = 0.995");
+            addCheckTextBox(grp, "maxFalseAlarmRate", "0.5", "max_false_alarm_rate = 0.5");
+            addCheckTextBox(grp, "weightTrimRate", "0.95", "weight_trim_rate = 0.95");
+            addCheckTextBox(grp, "maxDepth", "1", "max_depth_of_weak_tree = 1");
+            addCheckTextBox(grp, "maxWeakCount", "100", "max_weak_tree_count = 100");
+            addCheckTextBox(grp, "mode", "BASIC", "BASIC(default) | CORE | ALL");
+
+            // 次のGroupBoxの表示位置
+            h = grp.Location.Y + grp.Height;
+
+            // 物体検出
+            grp = new GroupBox();
+            grp.Text = "物体検出";
+            grp.Name = GRP_SETTINGS_DETECT;
+            grp.Location = new System.Drawing.Point(10, h + 20);
+            grp.Size = new System.Drawing.Size(700, 30);
+            tbpSetting.Controls.Add(grp);
+            addCheckTextBox(grp, PRM_DETECT_SCALEFACTOR, "1.1", "Parameter specifying how much the image size is reduced at each image scale.");
+            addCheckTextBox(grp, PRM_DETECT_MINNEIGHBORS, "3", "Parameter specifying how many neighbors each candidate rectangle should have to retain it.");
+            addCheckTextBox(grp, PRM_DETECT_FLAGS, "", "Parameter with the same meaning for an old cascade as in the function cvHaarDetectObjects. It is not used for a new cascade.");
+            addCheckTextBox(grp, PRM_DETECT_MINSIZE, "", "Minimum possible object size. Objects smaller than that are ignored.");
+            addCheckTextBox(grp, PRM_DETECT_MAXSIZE, "", "Maximum possible object size. Objects larger than that are ignored.");
+            addCheckTextBox(grp, PRM_DETECT_OUTPUTREJECTLEVELS, "false", "");
         }
 
         /// <summary>
@@ -543,7 +613,7 @@ namespace QuickCV
         /// <param name="paramName"></param>
         /// <param name="tooltip"></param>
         /// <param name="check"></param>
-        private void addCheckTextBox(GroupBox grb, string paramName, string tooltip = "", bool check = false)
+        private void addCheckTextBox(GroupBox grb, string paramName, string initialValue , string tooltip, bool check = false)
         {
             grb.Height += 20;
             // チェックテキストボックス
@@ -555,6 +625,11 @@ namespace QuickCV
             ctb.Location = new System.Drawing.Point(10, grb.Height - 35);
             ctb.checkBox.Text = paramName;
             ctb.checkBox.Checked = check;
+            if (check)
+            {
+                ctb.checkBox.Enabled = false;
+                ctb.textBox.BackColor = Color.LightBlue;
+            }
             //ツールチップを追加
             tltSettings.SetToolTip(ctb.checkBox, tooltip);
             tltSettings.SetToolTip(ctb.textBox, tooltip);
@@ -634,14 +709,15 @@ namespace QuickCV
         /// </summary>
         /// <param name="groupBoxName"></param>
         /// <returns></returns>
+        /// <remarks>チェックしているものをスペースで結合</remarks>
         private string GetParameterFromGroupBox(string groupBoxName)
         {
             string param = "";
 
-            foreach (Control ctl in tbpSetting.Controls)
+            foreach (Control ctl in tbpSetting.Controls.Find(groupBoxName, false))
             {
                 // GroupBoxのみ対象
-                if (ctl.GetType() == typeof(GroupBox) && ctl.Name == groupBoxName)
+                if (ctl.GetType() == typeof(GroupBox))
                 {
                     foreach (Control item in ctl.Controls)
                     {
@@ -655,6 +731,44 @@ namespace QuickCV
                 }
             }
             return param;
+        }
+
+        /// <summary>
+        /// パラメータ取得（物体検出）
+        /// </summary>
+        /// <param name="groupBoxName"></param>
+        /// <returns></returns>
+        /// <remarks>チェックされていない場合は初期値</remarks>
+        private string GetParameterFromDetect(string parameterName)
+        {
+            string ret = "";
+            errorParameterName = parameterName;
+
+            foreach (Control ctl in tbpSetting.Controls.Find(GRP_SETTINGS_DETECT, false))
+            {
+                // GroupBoxのみ対象
+                if (ctl.GetType() == typeof(GroupBox))
+                {
+                    foreach (Control item in ctl.Controls)
+                    {
+                        CheckTextBox ctb = (CheckTextBox)item;
+
+                        if (ctb.checkBox.Text == parameterName)
+                        {
+                            if (ctb.checkBox.Checked)
+                            {
+                                ret = ctb.textBox.Text;
+                            }
+                            else
+                            {
+                                ret = ctb.InitialValue;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            return ret;
         }
     #endregion
 
