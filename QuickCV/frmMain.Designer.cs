@@ -53,6 +53,13 @@
             this.button2 = new System.Windows.Forms.Button();
             this.bgwCamera = new System.ComponentModel.BackgroundWorker();
             this.tltSettings = new System.Windows.Forms.ToolTip(this.components);
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lsvPicture = new System.Windows.Forms.ListView();
+            this.lsbPicture = new System.Windows.Forms.ListBox();
             this.tabMain.SuspendLayout();
             this.tbpLearning.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -61,6 +68,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.picCamera)).BeginInit();
             this.tbpSetting.SuspendLayout();
             this.pnlSettings.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabMain
@@ -78,6 +86,7 @@
             // tbpLearning
             // 
             this.tbpLearning.BackColor = System.Drawing.SystemColors.Control;
+            this.tbpLearning.Controls.Add(this.groupBox3);
             this.tbpLearning.Controls.Add(this.groupBox2);
             this.tbpLearning.Controls.Add(this.groupBox1);
             this.tbpLearning.Location = new System.Drawing.Point(4, 22);
@@ -90,7 +99,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.btnTrainCascade);
-            this.groupBox2.Location = new System.Drawing.Point(40, 226);
+            this.groupBox2.Location = new System.Drawing.Point(40, 522);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(805, 145);
             this.groupBox2.TabIndex = 1;
@@ -113,7 +122,7 @@
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(40, 25);
+            this.groupBox1.Location = new System.Drawing.Point(40, 321);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(805, 145);
             this.groupBox1.TabIndex = 0;
@@ -294,6 +303,78 @@
             this.bgwCamera.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwCamera_DoWork);
             this.bgwCamera.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgwCamera_ProgressChanged);
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.lsbPicture);
+            this.groupBox3.Controls.Add(this.lsvPicture);
+            this.groupBox3.Controls.Add(this.button3);
+            this.groupBox3.Controls.Add(this.button4);
+            this.groupBox3.Controls.Add(this.textBox2);
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Location = new System.Drawing.Point(40, 18);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(805, 258);
+            this.groupBox3.TabIndex = 2;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "正解・不正解画像リスト作成";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(31, 60);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 6;
+            this.button3.Text = "リスト作成";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(609, 25);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 5;
+            this.button4.Text = "参照";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(124, 30);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(466, 19);
+            this.textBox2.TabIndex = 4;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(29, 30);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(87, 12);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "画像リストファイル";
+            // 
+            // lsvPicture
+            // 
+            this.lsvPicture.AllowDrop = true;
+            this.lsvPicture.Location = new System.Drawing.Point(50, 114);
+            this.lsvPicture.Name = "lsvPicture";
+            this.lsvPicture.Size = new System.Drawing.Size(296, 97);
+            this.lsvPicture.TabIndex = 7;
+            this.lsvPicture.UseCompatibleStateImageBehavior = false;
+            this.lsvPicture.DragDrop += new System.Windows.Forms.DragEventHandler(this.lsvPicture_DragDrop);
+            this.lsvPicture.DragEnter += new System.Windows.Forms.DragEventHandler(this.lsvPicture_DragEnter);
+            // 
+            // lsbPicture
+            // 
+            this.lsbPicture.AllowDrop = true;
+            this.lsbPicture.FormattingEnabled = true;
+            this.lsbPicture.ItemHeight = 12;
+            this.lsbPicture.Location = new System.Drawing.Point(393, 114);
+            this.lsbPicture.Name = "lsbPicture";
+            this.lsbPicture.Size = new System.Drawing.Size(315, 100);
+            this.lsbPicture.TabIndex = 8;
+            this.lsbPicture.DragDrop += new System.Windows.Forms.DragEventHandler(this.lsbPicture_DragDrop);
+            this.lsbPicture.DragEnter += new System.Windows.Forms.DragEventHandler(this.lsbPicture_DragEnter);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -314,6 +395,8 @@
             this.tbpSetting.ResumeLayout(false);
             this.pnlSettings.ResumeLayout(false);
             this.pnlSettings.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -344,6 +427,13 @@
         private System.Windows.Forms.Panel pnlSettings;
         private System.Windows.Forms.Button btnTrainCascade;
         private System.Windows.Forms.Button btnCreateSamples;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.ListView lsvPicture;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ListBox lsbPicture;
     }
 }
 

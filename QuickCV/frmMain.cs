@@ -1,4 +1,5 @@
 ﻿using OpenCvSharp;
+using OpenCvSharp.Cuda;
 using OpenCvSharp.Extensions;
 using System;
 using System.Collections.Generic;
@@ -771,6 +772,57 @@ namespace QuickCV
             return ret;
         }
     #endregion
+
+        private void lsvPicture_DragDrop(object sender, DragEventArgs e)
+        {
+            //コントロール内にドロップされたとき実行される
+            //ドロップされたすべてのファイル名を取得する
+            string[] fileName =
+                (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            //ListBoxに追加する
+            //lsvPicture.Items.AddRange(fileName);
+        }
+
+        private void lsbPicture_DragDrop(object sender, DragEventArgs e)
+        {
+            //コントロール内にドロップされたとき実行される
+            //ドロップされたすべてのファイル名を取得する
+            string[] fileName =
+                (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            //ListBoxに追加する
+            lsbPicture.Items.AddRange(fileName);
+        }
+
+        private void lsbPicture_DragEnter(object sender, DragEventArgs e)
+        {
+            //コントロール内にドラッグされたとき実行される
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                //ドラッグされたデータ形式を調べ、ファイルのときはコピーとする
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                //ファイル以外は受け付けない
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void lsvPicture_DragEnter(object sender, DragEventArgs e)
+        {
+            //コントロール内にドラッグされたとき実行される
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                //ドラッグされたデータ形式を調べ、ファイルのときはコピーとする
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                //ファイル以外は受け付けない
+                e.Effect = DragDropEffects.None;
+            }
+
+        }
 
 
     }
